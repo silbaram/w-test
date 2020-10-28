@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>W 과제</title>
+    <style>
+        .container{width:500px;margin:0 auto;padding-top:0;}
+        .subTitle{text-align: left;}
+        .summitButton{text-align: right;}
+        .subContainerWidth{width: 100%}
+        .tbl-st-col {width:500px;margin-top:100px;}
+    </style>
+
+    <script src="/js/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <table class="tbl-st-col">
+            <colgroup>
+                <col style="width:30%;" />
+                <col style="width:auto;" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th scope="col" class="subTitle">URL</th>
+                    <th>
+                        <input type="text" id="crawlingTargetUrl" name="crawlingTargetUrl" class="subContainerWidth"/>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="subTitle">TYPE</th>
+                    <th>
+                        <select id="tagReplaceType" name="tagReplaceType" class="subContainerWidth">
+                            <option value="HTML" selected>HTML</option>
+                            <option value="TEXT">TEXT</option>
+                        </select>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="subTitle">출력묶음단위(자연수)</th>
+                    <th>
+                        <input type="text" id="bundleUnit" name="bundleUnit" class="subContainerWidth" />
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="subTitle">몫</th>
+                    <th>
+                        <input type="text" id="shareData" class="subContainerWidth" />
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col" class="subTitle">나머지</th>
+                    <th>
+                        <input type="text" id="remainderData" class="subContainerWidth" />
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <div class="summitButton">
+            <button type="button" onclick="onConvertedSummit()">요청하기</button>
+        </div>
+    </div>
+    <script>
+
+        function onConvertedSummit() {
+            axios({
+                method: 'get',
+                url: '/crawling/converted?crawlingTargetUrl=' + document.getElementById('crawlingTargetUrl').value + '&tagReplaceType=' + document.getElementById('tagReplaceType').value + '&bundleUnit=' + document.getElementById('bundleUnit').value,
+                // data: data
+            }).then(response => {
+                document.getElementById('shareData').value = response.data.shareData;
+                document.getElementById('remainderData').value = response.data.remainderData;
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+    </script>
+</body>
+</html>
